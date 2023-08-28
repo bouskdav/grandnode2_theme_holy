@@ -1,0 +1,29 @@
+﻿@model IList<CategoryModel>
+@inject DisplayOrderHomePage order
+@{ 
+    string defaultImageUrl = "https://via.placeholder.com/360x600.png/0000FF/808080?text=Visit+WhoIsHostingThis.com+Buyers+Guide";
+}
+<div class="categoryGrid home-page-categories-row order-@order.HomePageCategories">
+    <div cols="12" class="col-12 px-0">
+        <div class="form-row">
+            @foreach (var item in Model)
+            {
+                string largeImageUrl = item.UserFields.FirstOrDefault(i => i.Key == "main-page-image-url")?.Value ?? defaultImageUrl;
+                string subtitle = item.UserFields.FirstOrDefault(i => i.Key == "main-page-subtitle")?.Value;
+
+                <div class="col-xl col-lg col-md-@order.Pc_Md col-sm-@order.Pc_Sm col-@order.Pc_Col">
+                    <a href="@Url.RouteUrl("Category", new { SeName = item.SeName })" title="@item.PictureModel.Title">
+                        <article class="card text-white" style="background-image: url(@largeImageUrl);">
+                            <div class="card-body d-flex flex-column">
+                                <div class="card-body-content-bottom">
+                                    <h3 class="card-title">@item.Name</h3>
+                                    <p class="card-text">@Html.Raw(subtitle)</p>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

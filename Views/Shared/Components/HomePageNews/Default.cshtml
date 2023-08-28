@@ -1,0 +1,81 @@
+﻿@model HomePageNewsItemsModel
+@inject DisplayOrderHomePage order
+@{
+    var firstItem = Model.NewsItems.ElementAtOrDefault(0);
+    var secondItem = Model.NewsItems.ElementAtOrDefault(1);
+    var thirdItem = Model.NewsItems.ElementAtOrDefault(2);
+    var fourthItem = Model.NewsItems.ElementAtOrDefault(3);
+
+    string defaultImageUrl = "https://via.placeholder.com/600x600.png/0000FF/808080?text=Visit+WhoIsHostingThis.com+Buyers+Guide";
+}
+<div class="news-list-homepage my-3 order-@order.HomePageNews">
+    <div class="col-12 px-0">
+        @if (firstItem != null)
+        {
+            string firstImageUrl = firstItem.PictureModel.ImageUrl ?? defaultImageUrl;
+
+            <div class="form-row">
+                <div class="col-md mb-2">
+                    <a href="@Url.RouteUrl("NewsItem", new { SeName = firstItem.SeName })" title="@firstItem.Title">
+                        <article class="card card-vertical text-white h-100" style="background-image: url(@firstImageUrl);">
+                            <div class="card-body d-flex flex-column">
+                                @Html.Raw(firstItem.Short)
+                            </div>
+                        </article>
+                    </a>
+                </div>
+                @if (secondItem != null)
+                {
+                    string secondImageUrl = secondItem.PictureModel.ImageUrl ?? defaultImageUrl;
+                    string secondRowHeight = thirdItem != null ? "50%" : "100%";
+
+                    <div class="col-md-8">
+                        <div class="row" style="height: @secondRowHeight;">
+                            <div class="col mb-2">
+                                <a href="@Url.RouteUrl("NewsItem", new { SeName = secondItem.SeName })" title="@secondItem.Title">
+                                    <article class="card text-white h-100" style="background-image: url(@secondImageUrl);">
+                                        <div class="card-body d-flex flex-column">
+                                            @Html.Raw(secondItem.Short)
+                                        </div>
+                                    </article>
+                                </a>
+                            </div>
+                        </div>
+                        @if (thirdItem != null)
+                        {
+                            string thirdImageUrl = thirdItem.PictureModel.ImageUrl ?? defaultImageUrl;
+                            string smallMarginString = fourthItem != null ? "smaller-inner-paddings" : "";
+
+                            <div class="row @smallMarginString" style="height: 50%;">
+                                <div class="col-md mb-2">
+                                    <a href="@Url.RouteUrl("NewsItem", new { SeName = thirdItem.SeName })" title="@thirdItem.Title">
+                                        <article class="card card-vertical text-white h-100" style="background-image: url(@thirdImageUrl);">
+                                            <div class="card-body d-flex flex-column">
+                                                @Html.Raw(thirdItem.Short)
+                                            </div>
+                                        </article>
+                                    </a>
+                                </div>
+
+                                @if (fourthItem != null)
+                                {
+                                    string fourthImageUrl = fourthItem.PictureModel.ImageUrl ?? defaultImageUrl;
+
+                                    <div class="col-md mb-2">
+                                        <a href="@Url.RouteUrl("NewsItem", new { SeName = fourthItem.SeName })" title="@fourthItem.Title">
+                                            <article class="card card-vertical text-white h-100" style="background-image: url(@fourthImageUrl);">
+                                                <div class="card-body d-flex flex-column">
+                                                    @Html.Raw(fourthItem.Short)
+                                                </div>
+                                            </article>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

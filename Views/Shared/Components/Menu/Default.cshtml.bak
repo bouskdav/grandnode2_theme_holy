@@ -1,0 +1,56 @@
+﻿@model MenuModel
+@{
+    var rootCategories = Model.Categories.ToList();
+}
+
+<b-navbar-nav>
+    @*<b-nav-item href="#">Link</b-nav-item>
+        <b-nav-item href="#" disabled>Disabled</b-nav-item>*@
+    @await Component.InvokeAsync("Widget", new { widgetZone = "header_menu_before" })
+
+    @if (Model.DisplayHomePageMenu)
+    {
+        <b-nav-item href="@Url.RouteUrl("HomePage")">@Loc["HomePage"]</b-nav-item>
+    }
+
+    @foreach (var category in rootCategories)
+    {
+        var categoryLineModel = new MenuModel.CategoryLineModel
+        {
+            Category = category
+        };
+        <partial name="_CategoryLine.Menu" model="categoryLineModel" />
+    }
+
+    @*<b-nav-item-dropdown text="Lang">
+            <b-dropdown-text style="min-width: 240px;" class="clearfix">
+                Blablabl bla blaba<br />blabla<br />
+                <img src="https://via.placeholder.com/400x100" />
+            </b-dropdown-text>
+            <b-dropdown-item href="#">EN</b-dropdown-item>
+            <b-dropdown-item href="#">ES</b-dropdown-item>
+            <b-dropdown-item href="#">RU</b-dropdown-item>
+            <b-dropdown-item href="#">FA</b-dropdown-item>
+        </b-nav-item-dropdown>*@
+
+    @if (Model.Pages?.Count > 0)
+    {
+        <b-nav-item-dropdown text="Pages">
+            @foreach (var mpage in Model.Pages)
+            {
+                <b-dropdown-item href="@Url.RouteUrl("Page", new { SeName=mpage.SeName })">@mpage.Name</b-dropdown-item>
+            }
+        </b-nav-item-dropdown>
+    }
+
+    @if (Model.BlogEnabled && Model.DisplayBlogMenu)
+    {
+        <b-nav-item href="@Url.RouteUrl("Blog")">@Loc["Blog"]</b-nav-item>
+    }
+    @if (Model.DisplayContactUsMenu)
+    {
+        <b-nav-item href="@Url.RouteUrl("ContactUs")">@Loc["ContactUs"]</b-nav-item>
+    }
+
+    @await Component.InvokeAsync("Widget", new { widgetZone = "header_menu_after" })
+</b-navbar-nav>
